@@ -85,6 +85,7 @@ side.
 
 ```python
 cd GantryMQ # Tests are not intended to be ran anywhere else other than the project directory
+export PYTHONPATH=$PYTHONPATH:$PWD
 python tests/local/gcoder.py # Testing gcoder
 python tests/local/gpio.py   # Testing GPIO interactions
 python tests/local/i2c_ads1115.py # Testing the I2C ADC interaction
