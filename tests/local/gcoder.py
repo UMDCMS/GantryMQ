@@ -2,7 +2,7 @@ import logging
 import time
 from modules.gcoder import gcoder
 
-logging.basicConfig(level=5)
+logging.basicConfig(level=20)
 logger = logging.getLogger('GantryMQ')
 
 print("""
@@ -17,7 +17,7 @@ Program will then close nominally.
 
 ## Testing the gcoder
 g = gcoder('/dev/ttyUSB0')
-g.moveto(100, 100, 100)
+g.move_to(100, 100, 100)
 while g.in_motion():
   print(f"\r{g.cx:5.1f} {g.cy:5.1f} {g.cz:5.1f}", end='')
   time.sleep(0.1)
