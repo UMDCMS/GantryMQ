@@ -1,20 +1,21 @@
 import pika
 import json
 
-from server import RpcServer
-import cmod.gpio as gpio
+import modules.gpio as gpio
 
 class GpioServer(RpcServer):
-  def __init__(self):
+  def __init__(self, rpc_server):
     super().__init__()
 
-    self.gpio = gpio.GPIO.instance()
+    self.gpio = gpio(21, gpio.WRITE)
 
     self.rpc_commands = {}
     self.data_methods = {}
 
     self.register_commands()
     self.register_data_methods()
+
+    self.rpc_server = rpc_server
 
   def register_commands(self):
     self.channel.exchange_declare(exchange="commands", exchange_type="direct")

@@ -1,10 +1,10 @@
 import random
-from client import RpcClient
 
-
-class GpioClient(RpcClient):
-  def __init__(self):
+class GpioClient():
+  def __init__(self, rpc_client):
     super().__init__()
+
+    self.rpc_client = rpc_client
 
   def slow_write(self, x):
       self.call(

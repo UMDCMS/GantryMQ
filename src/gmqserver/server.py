@@ -2,14 +2,14 @@
 import pika
 import json
 
-from Server.GCoderServer import GCoderServer
-from Server.GpioServer import GpioServer
+from GCoderServer import GCoderServer
+from GpioServer import GpioServer
 
 
 class RpcServer:
     def __init__(self):
         self.connection = pika.BlockingConnection(
-            pika.ConnectionParameters("localhost")
+            pika.ConnectionParameters("10.42.0.1")
         )
 
         self.channel = self.connection.channel()
@@ -23,9 +23,9 @@ class RpcServer:
         print(" [x] Awaiting requests")
         self.channel.start_consuming()
 
-        self.gcoder = GCoderServer()
-        self.gpio = GpioServer()
-        self.drs = DRSServer()
+        self.gcoder = GCoderServer(self)
+        self.gpio = GpioServer(self)
+        self.drs = DRSServer(self)
 
     def callback(self, ch, method, properties, body):
         if body == b"Connect":

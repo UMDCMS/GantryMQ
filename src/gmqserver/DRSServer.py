@@ -1,19 +1,20 @@
 import json
 
-from server import RpcServer
-import cmod.drs as drs
+import modules.drs as drs
 
-class DRSServer(RpcServer):
-  def __init__(self):
+class DRSServer():
+  def __init__(self, rpc_server):
     super().__init__()
 
-    self.drs = drs.DRS.instance()
+    self.drs = drs()
 
     self.rpc_commands = {}
     self.data_methods = {}
 
     self.register_commands()
     self.register_data_methods()
+
+    self.rpc_server = rpc_server
 
   def register_commands(self):
     self.channel.exchange_declare(exchange="commands", exchange_type="direct")
@@ -63,7 +64,7 @@ class DRSServer(RpcServer):
     self.data_methods.__setitem__("is-ready", self.drs.is_ready)
 
   def on_request_data_aux(self, ch, commamd, props, body):
-    self.on_request_data(ch, commamd, props, body, self.data_methods)
+    self.rpc_server.on_request_data(ch, commamd, props, body, self.data_methods)
 
   def on_request_command_aux(self, ch, command, props, body):
-    self.on_request_command(ch, command, props, body, self.rpc_commands)
+    self.rpc_server.on_request_command(ch, command, props, body, self.rpc_commands)

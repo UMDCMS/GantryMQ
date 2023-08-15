@@ -1,12 +1,12 @@
-from client import RpcClient
-
-
-class GpioClient(RpcClient):
-    def __init__(self):
+class GpioClient():
+    def __init__(self, rpc_client):
         super().__init__()
 
+        self.rpc_client = rpc_client
+
+
     def run_gcode(self, gcode, attempt, waitack):
-        self.call(
+        self.rpc_client.call(
             "run-gcode",
             {"gcode": gcode, "attempt": attempt, "waitack": waitack},
             exchange="commands",
@@ -14,7 +14,7 @@ class GpioClient(RpcClient):
         )
 
     def set_speed_limit(self, x, y, z):
-        self.call(
+        self.rpc_client.call(
             "set-speed-limit",
             {"x": x, "y": y, "z": z},
             exchange="commands",
@@ -22,7 +22,7 @@ class GpioClient(RpcClient):
         )
 
     def move_to(self, x, y, z):
-        self.call(
+        self.rpc_client.call(
             "move-to",
             {"x": x, "y": y, "z": z},
             exchange="commands",
@@ -30,7 +30,7 @@ class GpioClient(RpcClient):
         )
 
     def enable_stepper(self, x, y, z):
-        self.call(
+        self.rpc_client.call(
             "enable-stepper",
             {"x": x, "y": y, "z": z},
             exchange="commands",
@@ -38,7 +38,7 @@ class GpioClient(RpcClient):
         )
 
     def disable_stepper(self, x, y, z):
-        self.call(
+        self.rpc_client.call(
             "disable-stepper",
             {"x": x, "y": y, "z": z},
             exchange="commands",
@@ -46,7 +46,7 @@ class GpioClient(RpcClient):
         )
 
     def send_home(self, x, y, z):
-        self.call(
+        self.rpc_client.call(
             "send-home",
             {"x": x, "y": y, "z": z},
             exchange="commands",
@@ -55,10 +55,10 @@ class GpioClient(RpcClient):
 
     # Read-like functions
     def get_settings(self):
-        self.call("get-settings", {}, exchange="data", routing_key="gcoder_data")
+        self.rpc_client.call("get-settings", {}, exchange="data", routing_key="gcoder_data")
 
     def in_motion(self, x, y, z):
-        self.call(
+        self.rpc_client.call(
             "in-motion",
             {"x": x, "y": y, "z": z},
             exchange="data",
@@ -67,35 +67,35 @@ class GpioClient(RpcClient):
 
     # Read-like data members (Should only be set via operation-functions)
     def get_opx(self):
-        self.call("get-opx", {}, exchange="data", routing_key="gcoder_data")
+        self.rpc_client.call("get-opx", {}, exchange="data", routing_key="gcoder_data")
   
     def get_opy(self):
-        self.call("get-opy", {}, exchange="data", routing_key="gcoder_data")
+        self.rpc_client.call("get-opy", {}, exchange="data", routing_key="gcoder_data")
 
     def get_opz(self):
-        self.call("get-opz", {}, exchange="data", routing_key="gcoder_data")
+        self.rpc_client.call("get-opz", {}, exchange="data", routing_key="gcoder_data")
 
     def get_cx(self):
-        self.call("get-cx", {}, exchange="data", routing_key="gcoder_data")
+        self.rpc_client.call("get-cx", {}, exchange="data", routing_key="gcoder_data")
 
     def get_cy(self):
-        self.call("get-cy", {}, exchange="data", routing_key="gcoder_data")
+        self.rpc_client.call("get-cy", {}, exchange="data", routing_key="gcoder_data")
 
     def get_cz(self):
-        self.call("get-cz", {}, exchange="data", routing_key="gcoder_data")
+        self.rpc_client.call("get-cz", {}, exchange="data", routing_key="gcoder_data")
 
     def get_vx(self):
-        self.call("get-vx", {}, exchange="data", routing_key="gcoder_data")
+        self.rpc_client.call("get-vx", {}, exchange="data", routing_key="gcoder_data")
 
     def get_vy(self):
-        self.call("get-vy", {}, exchange="data", routing_key="gcoder_data")
+        self.rpc_client.call("get-vy", {}, exchange="data", routing_key="gcoder_data")
 
     def get_vz(self):
-        self.call("get-vz", {}, exchange="data", routing_key="gcoder_data")
+        self.rpc_client.call("get-vz", {}, exchange="data", routing_key="gcoder_data")
 
     # Static methods - getterrs
     def get_max_x(self):
-        self.call(
+        self.rpc_client.call(
             "get-max-x",
             {},
             exchange="data",
@@ -103,7 +103,7 @@ class GpioClient(RpcClient):
         )
 
     def get_max_y(self):
-        self.call(
+        self.rpc_client.call(
             "get-max-y",
             {},
             exchange="data",
@@ -111,7 +111,7 @@ class GpioClient(RpcClient):
         )
 
     def get_max_z(self):
-        self.call(
+        self.rpc_client.call(
             "get-max-z",
             {},
             exchange="data",
@@ -120,7 +120,7 @@ class GpioClient(RpcClient):
 
     # Static methods - setters
     def set_max_x(self, x):
-        self.call(
+        self.rpc_client.call(
             "set-max-x",
             {"x": x},
             exchange="commands",
@@ -128,7 +128,7 @@ class GpioClient(RpcClient):
         )
 
     def set_max_y(self, y):
-        self.call(
+        self.rpc_client.call(
             "set-max-y",
             {"y": y},
             exchange="commands",
@@ -136,7 +136,7 @@ class GpioClient(RpcClient):
         )
 
     def set_max_z(self, z):
-        self.call(
+        self.rpc_client.call(
             "set-max-z",
             {"z": z},
             exchange="commands",

@@ -1,12 +1,12 @@
-from client import RpcClient
-
 
 class DRSClient(RpcClient):
-  def __init__(self):
+  def __init__(self, rpc_client):
     super().__init__()
 
+    self.rpc_client = rpc_client
+
   def force_stop(self):
-      self.call(
+      self.rpc_client.call(
         "force-stop",
         {},
         exchange="commands",
@@ -14,7 +14,7 @@ class DRSClient(RpcClient):
       )
 
   def start_collect(self):
-    self.call(
+    self.rpc_client.call(
       "start-collect",
       {},
       exchange="commands",
@@ -22,7 +22,7 @@ class DRSClient(RpcClient):
     )
   
   def run_calibrations(self):
-    self.call(
+    self.rpc_client.call(
       "run-calibration",
       {},
       exchange="commands",
@@ -30,7 +30,7 @@ class DRSClient(RpcClient):
     )
   
   def set_trigger(self, channel, level, direction, delay):
-    self.call(
+    self.rpc_client.call(
       "set-trigger",
       {"channel": channel, "level": level, "direction": direction, "delay": delay},
       exchange="commands",
@@ -38,7 +38,7 @@ class DRSClient(RpcClient):
     )
   
   def set_samples(self, x):
-    self.call(
+    self.rpc_client.call(
       "set-samples",
       {"x": x},
       exchange="commands",
@@ -46,7 +46,7 @@ class DRSClient(RpcClient):
     )
 
   def set_rate(self, x):
-    self.call(
+    self.rpc_client.call(
       "set-rate",
       {"x": x},
       exchange="commands",
@@ -55,7 +55,7 @@ class DRSClient(RpcClient):
 
   # Read-like data members (Should only be set via operation-functions)
   def get_time_slice(self):
-    self.call(
+    self.rpc_client.call(
       "get-time-slice",
       {},
       exchange="data",
@@ -63,7 +63,7 @@ class DRSClient(RpcClient):
     )
   
   def get_waveform(self, channel):
-    self.call(
+    self.rpc_client.call(
       "get-waveform",
       {"channel": channel},
       exchange="data",
@@ -71,7 +71,7 @@ class DRSClient(RpcClient):
     )
   
   def get_waveformsum(self):
-    self.call(
+    self.rpc_client.call(
       "get-waveformsum",
       {},
       exchange="data",
@@ -80,7 +80,7 @@ class DRSClient(RpcClient):
 
   # Static methods - getterrs
   def get_trigger_channel(self):
-    self.call(
+    self.rpc_client.call(
       "get-trigger-channel",
       {},
       exchange="data",
@@ -88,7 +88,7 @@ class DRSClient(RpcClient):
     )
   
   def get_trigger_direction(self):
-    self.call(
+    self.rpc_client.call(
       "get-trigger-direction",
       {},
       exchange="data",
@@ -96,7 +96,7 @@ class DRSClient(RpcClient):
     )
 
   def get_trigger_level(self):
-    self.call(
+    self.rpc_client.call(
       "get-trigger-level",
       {},
       exchange="data",
@@ -104,7 +104,7 @@ class DRSClient(RpcClient):
     )
   
   def get_trigger_delay(self):
-    self.call(
+    self.rpc_client.call(
       "get-trigger-delay",
       {},
       exchange="data",
@@ -112,7 +112,7 @@ class DRSClient(RpcClient):
     )
 
   def get_samples(self):
-    self.call(
+    self.rpc_client.call(
       "get-samples",
       {},
       exchange="data",
@@ -120,7 +120,7 @@ class DRSClient(RpcClient):
     )
 
   def get_rate(self):
-    self.call(
+    self.rpc_client.call(
       "get-rate",
       {},
       exchange="data",
@@ -128,7 +128,7 @@ class DRSClient(RpcClient):
     )
 
   def is_available(self):
-    self.call(
+    self.rpc_client.call(
       "is-available",
       {},
       exchange="data",
@@ -136,7 +136,7 @@ class DRSClient(RpcClient):
     )
 
   def is_ready(self):
-    self.call(
+    self.rpc_client.call(
       "is-ready",
       {},
       exchange="data",

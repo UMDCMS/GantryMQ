@@ -4,13 +4,15 @@ import uuid
 import json
 import sys
 
-from Clients import GCoderClient, GpioClient, DRSClient
+from .GCoderClient import GCoderClient
+from .GpioClient import GpioClient
+from .DRSClient import DRSClient
 
 
 class RpcClient(object):
   def __init__(self):
     self.connection = pika.BlockingConnection(
-        pika.ConnectionParameters(host="localhost")
+        pika.ConnectionParameters(host="10.42.0.1")
     )
 
     self.channel = self.connection.channel()
@@ -32,9 +34,9 @@ class RpcClient(object):
     self.response = None
     self.corr_id = None
 
-    self.gcoder = GCoderClient()
-    self.gpio = GpioClient()
-    self.drs = DRSClient()
+    self.gcoder = GCoderClient(self)
+    self.gpio = GpioClient(self)
+    self.drs = DRSClient(self)
 
     # Register a function to be called at exit to ensure "release" is sent
     # atexit.register(self.release_connection)

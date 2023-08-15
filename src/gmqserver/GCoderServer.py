@@ -6,20 +6,21 @@
 import pika
 import json
 
-from server import RpcServer
-import cmod.gcoder as gcoder
+import modules.gcoder as gcoder
 
-class GCoderServer(RpcServer):
-  def __init__(self):
+class GCoderServer():
+  def __init__(self, rpc_server):
     super().__init__()
 
-    self.gcoder = gcoder.GCoder.instance()
+    self.gcoder = gcoder('/dev/ttyUSB0')
 
     self.rpc_commands = {}
     self.data_methods = {}
 
     self.register_commands()
     self.register_data_methods()
+
+    self.rpc_server = rpc_server
 
   def register_commands(self):
     self.channel.exchange_declare(exchange="commands", exchange_type="direct")
