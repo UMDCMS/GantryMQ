@@ -3,7 +3,7 @@ import json
 
 import modules.gpio as gpio
 
-class GpioServer(RpcServer):
+class GpioServer():
   def __init__(self, rpc_server):
     super().__init__()
 
